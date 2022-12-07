@@ -76,6 +76,28 @@ button:focus-visible {
   text-align: center;
 }
 
+.contact-table {
+  margin: 0 0 50px;
+}
+
+dl dl {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+dl dt {
+  width: 185px;
+  text-align: left;
+}
+dl dd {
+  margin: auto;
+}
+
+dl dd input {
+  padding: 5px;
+}
+
 @media (prefers-color-scheme: light) {
   :root {
     color: #213547;
