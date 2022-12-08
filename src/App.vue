@@ -4,27 +4,27 @@ import { ref } from "vue";
 
 const formSchema = ref([
   {
-    label: "お名前",
+    label: "※お名前",
     name: "name",
     as: "input",
   },
   {
-    label: "ふりがな",
+    label: "※ふりがな",
     name: "ruby",
     as: "input",
   },
   {
-    label: "メールアドレス",
+    label: "※メールアドレス",
     name: "email",
     as: "input",
   },
   {
-    label: "確認用メールアドレス",
-    name: "email",
+    label: "※確認用メールアドレス",
+    name: "confirmation",
     as: "input",
   },
   {
-    label: "電話番号",
+    label: "※電話番号",
     name: "tel",
     as: "input",
   },
@@ -39,7 +39,7 @@ const formSchema = ref([
     as: "input",
   },
   {
-    label: "お問い合わせ内容",
+    label: "※お問い合わせ内容",
     name: "note",
     as: "textarea",
   },
