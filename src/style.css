@@ -111,16 +111,18 @@ dd span {
   left: 0;
   right: 0;
   color: red;
+  transition: all 0.3s;
+  z-index: -1;
 }
 
-.v-enter,
-.v-leave-to {
-  opacity: 0;
-}
-
-.v-enter-active,
-.v-leave-active {
+.fade-enter-active,
+.fade-leave-active {
   transition: all 0.5s;
+}
+.fade-enter,
+.fade-leave-to {
+  top: -20px;
+  opacity: 0;
 }
 
 @media (prefers-color-scheme: light) {

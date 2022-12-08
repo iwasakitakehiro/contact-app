@@ -9,6 +9,8 @@ const props = defineProps({
   },
 });
 
+const toggle = ref(false);
+
 const onSubmit = (values) => {
   console.log(JSON.stringify(values, null, 2));
 };
@@ -30,9 +32,6 @@ defineRule("required", (value) => {
 });
 
 defineRule("minLength", (value, [limit]) => {
-  if (!value || !value.length) {
-    return "This field is required";
-  }
   if (value.length < limit) {
     return `This field must be at least ${limit} characters`;
   }
@@ -54,11 +53,9 @@ defineRule("email", (value) => {
       <dl v-for="field in schema" :key="field.name">
         <dt :for="field.name">{{ field.label }}</dt>
         <dd>
-          <ErrorMessage :name="field.name" v-slot="{ message }">
-            <transition appear>
-              <span :key="field.name">{{ message }}</span>
-            </transition>
-          </ErrorMessage>
+          <transition name="fade" appear>
+            <ErrorMessage :name="field.name" />
+          </transition>
           <Field :as="field.as" :id="field.name" :name="field.name" />
         </dd>
       </dl>
