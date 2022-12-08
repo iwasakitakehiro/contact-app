@@ -19,8 +19,8 @@ const schemas = {
   name: "required",
   ruby: "required",
   email: "required|email",
-  confirmation: "required",
-  tel: "required",
+  confirmation: `required|confirmed:@email`,
+  tel: "required|tel",
   note: "required",
 };
 
@@ -42,7 +42,22 @@ defineRule("email", (value) => {
   // Check if email
   const regex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i;
   if (!regex.test(value)) {
-    return "This field must be a valid email";
+    return "正しいメールアドレスを入れてください";
+  }
+  return true;
+});
+
+defineRule("confirmed", (value, [email]) => {
+  if (value !== email) {
+    return "メールアドレスと一致しません";
+  }
+  return true;
+});
+
+defineRule("tel", (int) => {
+  const regex = /^[0-9]+$/;
+  if (!regex.test(int)) {
+    return "電話番号を入力してください";
   }
   return true;
 });
