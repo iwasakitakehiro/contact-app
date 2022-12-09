@@ -21,6 +21,7 @@ const schemas = {
   email: "required|email",
   confirmation: `required|confirmed:@email`,
   tel: "required|tel",
+  postcode: "postcode",
   note: "required",
 };
 
@@ -55,7 +56,7 @@ defineRule("confirmed", (value, [email]) => {
 });
 
 defineRule("tel", (int) => {
-  const regex = /^[0-9]+$/;
+  const regex = /^0[0-9]{9,10}$/;
   if (!regex.test(int)) {
     return "電話番号を入力してください";
   }
