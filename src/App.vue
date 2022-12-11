@@ -30,13 +30,14 @@ const formSchema = ref([
   },
   {
     label: "郵便番号",
-    name: "post-code",
+    name: "postcode",
     as: "input",
   },
   {
     label: "ご住所",
     name: "address",
     as: "input",
+    value: "",
   },
   {
     label: "※お問い合わせ内容",

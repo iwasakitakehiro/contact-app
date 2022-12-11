@@ -1,6 +1,6 @@
 <script setup>
 import { Form, Field, ErrorMessage, defineRule } from "vee-validate";
-import { ref } from "vue";
+import { ref, onMounted } from "vue";
 
 const props = defineProps({
   schema: {
@@ -8,22 +8,53 @@ const props = defineProps({
     required: true,
   },
 });
-
-const toggle = ref(false);
-
 const onSubmit = (values) => {
-  console.log(JSON.stringify(values, null, 2));
+  // Fetch APIでデータ送信
+  fetch("../mailer.php", {
+    // 送信先URL
+    method: "post", // 通信メソッド
+    headers: {
+      "Content-Type": "application/json", // JSON形式のデータのヘッダー
+    },
+    body: JSON.stringify(values, null, 2), // JSON形式のデータ
+  })
+    .then((response) => response.text())
+    .then((data) => {
+      console.log(data);
+    });
 };
 
 const schemas = {
   name: "required",
-  ruby: "required",
-  email: "required|email",
-  confirmation: `required|confirmed:@email`,
-  tel: "required|tel",
-  postcode: "postcode",
-  note: "required",
+  // ruby: "required",
+  // email: "required|email",
+  // confirmation: `required|confirmed:@email`,
+  // tel: "required|tel",
+  // note: "required",
 };
+
+// 郵便番号自動入力
+// const getPostCode = onMounted(async (int) => {
+//   const reg = /^\d{7}$/;
+//   if (!reg.test(int)) return;
+//   try {
+//     const response = await axios.get(
+//       "http://zipcloud.ibsnet.co.jp/api/search",
+//       {
+//         params: {
+//           zipcode: int,
+//         },
+//       }
+//     );
+//     const address =
+//       response.data.results[0].address1 +
+//       response.data.results[0].address2 +
+//       response.data.results[0].address3;
+//     post.value = address;
+//   } catch (error) {
+//     console.log(error);
+//   }
+// });
 
 defineRule("required", (value) => {
   if (!value || !value.length) {
