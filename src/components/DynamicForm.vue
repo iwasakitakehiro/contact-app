@@ -8,7 +8,10 @@ const props = defineProps({
     required: true,
   },
 });
+
+const submited = ref(false);
 const onSubmit = (values) => {
+  submited.value = true;
   // Fetch APIでデータ送信
   fetch("../mailer.php", {
     // 送信先URL
@@ -95,18 +98,30 @@ defineRule("tel", (int) => {
 });
 </script>
 <template>
-  <Form @submit="onSubmit" :validation-schema="schemas">
-    <dl class="contact-table">
-      <dl v-for="field in schema" :key="field.name">
-        <dt :for="field.name">{{ field.label }}</dt>
-        <dd>
-          <transition name="fade" appear>
-            <ErrorMessage :name="field.name" />
-          </transition>
-          <Field :as="field.as" :id="field.name" :name="field.name" />
-        </dd>
+  <div class="contact-page">
+    <Form
+      class="contact-form"
+      :class="{ hide: submited === true }"
+      @submit="onSubmit"
+      :validation-schema="schemas"
+    >
+      <dl class="contact-table">
+        <dl v-for="field in schema" :key="field.name">
+          <dt :for="field.name">{{ field.label }}</dt>
+          <dd>
+            <transition name="fade" appear>
+              <ErrorMessage :name="field.name" />
+            </transition>
+            <Field :as="field.as" :id="field.name" :name="field.name" />
+          </dd>
+        </dl>
       </dl>
-    </dl>
-    <button>Submit</button>
-  </Form>
+      <button>Submit</button>
+    </Form>
+    <div class="complete" :class="{ show: submited === true }">
+      <p>
+        メールの送信が完了しました。<br />担当よりご連絡いたしますので少々お待ちください。
+      </p>
+    </div>
+  </div>
 </template>
