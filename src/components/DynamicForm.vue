@@ -26,11 +26,11 @@ const onSubmit = (values) => {
 
 const schemas = {
   name: "required",
-  // ruby: "required",
+  ruby: "required",
   email: "required|email",
-  // confirmation: `required|confirmed:@email`,
-  // tel: "required|tel",
-  // note: "required",
+  confirmation: `required|confirmed:@email`,
+  tel: "required|tel",
+  note: "required",
 };
 
 // 郵便番号自動入力

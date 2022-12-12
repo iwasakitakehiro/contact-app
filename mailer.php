@@ -6,7 +6,7 @@ header("Content-type: application/json; charset=UTF-8");
 $json = file_get_contents('php://input');
 // Converts json data into a PHP object 
 $data = json_decode($json, true);
-$client_name = 'たけひろのホームページ'
+$client_name = '株式会社ヒューマンシスコム';
 $client_address = "info@iwasakitakehiro.net";
 
 
@@ -15,21 +15,21 @@ $message = <<<EOT
   $data[name]
 
 ■ ふりがな
-
+  $data[ruby]
 
 ■ ご住所
-
+  $data[address]
 
 ■ 電話番号
-
+  $data[tel]
 
 ■ メールアドレス
 $data[email]
 
 ■ お問い合わせ内容
-
+  $data[note]
 EOT;
-    $client_message = <<<EOT
+$client_message = <<<EOT
 
 ホームページからお問い合わせがありました。
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -43,7 +43,7 @@ EOT;
 
 $user_message = <<<EOT
 
-$items[name] 様
+$data[name] 様
 
 このたびは、 $client_name にお問い合わせいただき、ありがとうございます。
 近日担当者よりご連絡を差し上げますので、しばらくお待ちくださいませ。
@@ -58,10 +58,10 @@ $message
 
 $client_name
 
-〒270-2232
-千葉県松戸市和名ヶ谷547-10
+〒000-0000
+千葉県千葉市美浜区
 
-URL https://sun-rise.biz/
+URL https://www.humansyscom.jp/
 
 ◆◇◆◇◆◇◆◇◆◇◆◇◆◇◆◇◆◇◆◇◆◇◆
 EOT;
@@ -72,10 +72,10 @@ mb_convert_encoding($client_message, "UTF-8");
 $user_message = mb_convert_encoding($user_message, "UTF-8");
 
 if (!mb_send_mail($client_address, "ホームページよりお問い合わせがありました", $client_message, "From: " . $client_address)) {
-    exit("e");
+  exit("e");
 }
 if (!mb_send_mail($data['email'], "お問い合わせありがとうございました", $user_message, "From:" . mb_encode_mimeheader($client_name) . "<" . $client_address . ">")) {
-    exit("e");
+  exit("e");
 }
 
 exit;
