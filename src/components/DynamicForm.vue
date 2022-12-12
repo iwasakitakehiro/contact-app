@@ -27,7 +27,7 @@ const onSubmit = (values) => {
 const schemas = {
   name: "required",
   // ruby: "required",
-  // email: "required|email",
+  email: "required|email",
   // confirmation: `required|confirmed:@email`,
   // tel: "required|tel",
   // note: "required",
