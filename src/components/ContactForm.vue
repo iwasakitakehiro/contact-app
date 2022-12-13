@@ -1,6 +1,6 @@
 <script setup>
 import { Form, Field, ErrorMessage, defineRule } from "vee-validate";
-import { ref, onMounted } from "vue";
+import { ref, defineEmits } from "vue";
 
 const props = defineProps({
   schema: {
@@ -9,9 +9,14 @@ const props = defineProps({
   },
 });
 
-const submited = ref(false);
+const emit = defineEmits(["handleEvent"]);
+
+const compleateForm = () => {
+  emit("handleEvent");
+};
+
 const onSubmit = (values) => {
-  submited.value = true;
+  compleateForm();
   // Fetch APIでデータ送信
   fetch("../mailer.php", {
     // 送信先URL
@@ -20,11 +25,7 @@ const onSubmit = (values) => {
       "Content-Type": "application/json", // JSON形式のデータのヘッダー
     },
     body: JSON.stringify(values, null, 2), // JSON形式のデータ
-  })
-    .then((response) => response.text())
-    .then((data) => {
-      console.log(data);
-    });
+  }).then((response) => response.text());
 };
 
 const schemas = {
@@ -98,30 +99,18 @@ defineRule("tel", (int) => {
 });
 </script>
 <template>
-  <div class="contact-page">
-    <Form
-      class="contact-form"
-      :class="{ hide: submited === true }"
-      @submit="onSubmit"
-      :validation-schema="schemas"
-    >
-      <dl class="contact-table">
-        <dl v-for="field in schema" :key="field.name">
-          <dt :for="field.name">{{ field.label }}</dt>
-          <dd>
-            <transition name="fade" appear>
-              <ErrorMessage :name="field.name" />
-            </transition>
-            <Field :as="field.as" :id="field.name" :name="field.name" />
-          </dd>
-        </dl>
+  <Form class="contact-form" @submit="onSubmit" :validation-schema="schemas">
+    <dl class="contact-table">
+      <dl v-for="field in schema" :key="field.name">
+        <dt :for="field.name">{{ field.label }}</dt>
+        <dd>
+          <transition name="fade" appear>
+            <ErrorMessage :name="field.name" />
+          </transition>
+          <Field :as="field.as" :id="field.name" :name="field.name" />
+        </dd>
       </dl>
-      <button>Submit</button>
-    </Form>
-    <div class="complete" :class="{ show: submited === true }">
-      <p>
-        メールの送信が完了しました。<br />担当よりご連絡いたしますので少々お待ちください。
-      </p>
-    </div>
-  </div>
+    </dl>
+    <button>メールを送信</button>
+  </Form>
 </template>

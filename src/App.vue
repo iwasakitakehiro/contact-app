@@ -1,5 +1,6 @@
 <script setup>
-import DynamicForm from "./components/DynamicForm.vue";
+import ContactForm from "./components/ContactForm.vue";
+import Compleate from "./components/Compleate.vue";
 import { ref } from "vue";
 
 const formSchema = ref([
@@ -45,12 +46,30 @@ const formSchema = ref([
     as: "textarea",
   },
 ]);
+
+const submited = ref(true);
+const clickEvent = () => {
+  if (submited.value) {
+    submited.value = false;
+  } else {
+    submited.value = true;
+  }
+};
 </script>
 
 <template>
-  <div>
-    <h1>お問い合わせフォーム</h1>
-    <p></p>
-  </div>
-  <DynamicForm :schema="formSchema" />
+  <main>
+    <h1>Contact</h1>
+    <p>フォームはvuejsを使って実装し、メールはphpによって送信されます。</p>
+    <div class="contact-wrap">
+      <transition name="fade">
+        <ContactForm
+          @handle-event="clickEvent"
+          v-if="submited"
+          :schema="formSchema"
+        />
+        <Compleate v-else />
+      </transition>
+    </div>
+  </main>
 </template>
